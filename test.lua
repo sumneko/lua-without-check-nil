@@ -1,4 +1,4 @@
-local withoutnil = require 'without-nil'
+local withoutnil = require 'without-check-nil'
 
 withoutnil.enable()
 
