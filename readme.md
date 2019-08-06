@@ -15,3 +15,5 @@ This hides errors and turns them into silent failures.
 
 # Attention
 This hides errors and turns them into silent failures.
+
+![jojo](jojo.jpg)
