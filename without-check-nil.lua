@@ -1,3 +1,5 @@
+local m = {}
+
 local mt = {}
 mt.__add      = function (a, b)
     if a == nil then a = 0 end
@@ -97,13 +99,25 @@ if _VERSION == 'Lua 5.3' or _VERSION == 'Lua 5.4' then
     ]]
 end
 
-return {
-    enable = function ()
-        debug.setmetatable(nil, mt)
-    end,
-    disable = function ()
-        if debug.getmetatable(nil) == mt then
-            debug.setmetatable(nil, nil)
+for event, func in pairs(mt) do
+    mt[event] = function (...)
+        local result = m.watch and m.watch(event, ...)
+        if result == nil then
+            return func(...)
+        else
+            return result
         end
     end
-}
+end
+
+function m.enable()
+    debug.setmetatable(nil, mt)
+end
+
+function m.disable()
+    if debug.getmetatable(nil) == mt then
+        debug.setmetatable(nil, nil)
+    end
+end
+
+return m
