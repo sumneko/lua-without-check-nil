@@ -101,12 +101,15 @@ end
 
 for event, func in pairs(mt) do
     mt[event] = function (...)
-        local result = m.watch and m.watch(event, ...)
-        if result == nil then
+        local watch = m.watch
+        if not watch then
             return func(...)
-        else
-            return result
         end
+        local care, result = watch(event, ...)
+        if not care then
+            return func(...)
+        end
+        return result
     end
 end
 

@@ -34,6 +34,16 @@ assert(nil >> 1 == 0)
 assert(1 << nil == 1)
 assert(1 >> nil == 1)
 
+function withoutnil.watch(event, ...)
+    if event == '__add' then
+        local x, y = ...
+        return true, ((x or 0) + (y or 0)) / 2
+    end
+end
+
+assert(nil + 10 == 5)
+assert(nil - 10 == -10)
+
 withoutnil.disable()
 
 assert(pcall(function () return nil + 1 end) == false)
